@@ -5,11 +5,6 @@ static int	is_number_valid(char *number);
 static int	is_all_digit(char *number);
 static void	skip_leading_zeros(char **number);
 
-static int is_schedule_valid(char *schedule)
-{
-	return (strcmp(schedule, "fifo") == 0 || strcmp(schedule, "edf") == 0);
-}
-
 static void	skip_leading_zeros(char **number)
 {
 	if (!**number)
@@ -82,8 +77,6 @@ static int	is_number_valid(char *number)
 
 int validator(int argc, char *argv[])
 {
-	char	sign;
-
 	if (argc != 9)
 		return (0);
 	for (int i = 1; i < 8; i++){
