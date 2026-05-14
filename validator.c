@@ -1,8 +1,8 @@
 #include "codexion.h"
 
-static int	is_schedule_valid(char *schedule);
 static int	overflow(char *number, char sign);
 static int	is_number_valid(char *number);
+static int	is_all_digit(char *number);
 static void	skip_leading_zeros(char **number);
 
 static int is_schedule_valid(char *schedule)
@@ -39,6 +39,21 @@ static int	overflow(char *number, char sign)
 	return (0);
 }
 
+static int	is_all_digit(char *number)
+{
+	if (*number == '-' || *number == '+')
+		number++;
+	if (!*number)
+		return (0);
+	while (*number)
+	{
+		if (*number < '0' || *number > '9')
+			return (0);
+		number++;
+	}
+	return (1);
+}
+
 static int	is_number_valid(char *number)
 {
 	char	sign;
@@ -72,10 +87,12 @@ int validator(int argc, char *argv[])
 	if (argc != 9)
 		return (0);
 	for (int i = 1; i < 8; i++){
+		if (!is_all_digit(argv[i]))
+			return (0);
 		if (!is_number_valid(argv[i]))
 			return (0);
 	}
-	if (!is_schedule_valid(argv[8]))
+	if (strcmp(argv[8], "fifo") != 0 && strcmp(argv[8], "edf") != 0)
 		return (0);
 	return (1);
 }
@@ -86,4 +103,8 @@ int main(int argc, char *argv[])
 		printf("Valid\n");
 	else
 		printf("Invalid\n");
+	if (is_all_digit(argv[1]))
+		printf("%s is all digits", argv[1]);
+	else
+		printf("%s is not all digits", argv[1]);
 }*/

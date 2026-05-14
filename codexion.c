@@ -27,15 +27,19 @@ int main(int argc, char* argv[]){
 	if (!validator(argc, argv))
 		return (1);
 	data = create_data(argv);
+	if (!data)
+		return (2);
 	dongles = create_dongles(data->n_coders);
 	coders = create_coders(dongles, data, data->n_coders);
-	if (!data || !dongles || !coders)
+	if (!dongles || !coders)
 	{
-		destroy_everything(coders, dongles, data, argc);
-		return (2);
+		destroy_everything(coders, dongles, data, data->n_coders);
+		return (3);
 	}
 	for (int i = 0; i < data->n_coders; i++){
 		print_coder(coders[i]);
 	}
+
+	destroy_everything(coders, dongles, data, data->n_coders);
 }
 
