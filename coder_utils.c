@@ -15,6 +15,9 @@
 t_coder	*create_coders(pthread_mutex_t *dongles, t_data *data, int n){
 	t_coder	*coders;
 
+	if (!dongles || !data)
+		return (NULL);
+
 	coders = malloc(sizeof(t_coder) * n);
 	if (!coders)
 		return (NULL);
