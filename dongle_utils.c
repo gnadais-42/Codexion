@@ -6,13 +6,14 @@
 /*   By: gnadais- <gnadais-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 15:26:43 by gnadais-          #+#    #+#             */
-/*   Updated: 2026/05/12 19:07:05 by gnadais-         ###   ########.fr       */
+/*   Updated: 2026/05/13 22:15:40 by gnadais-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-pthread_mutex_t *create_dongles(int n){
+pthread_mutex_t *create_dongles(int n)
+{
 	pthread_mutex_t *dongles;
 
 	dongles = malloc(sizeof(pthread_mutex_t) * n);
@@ -24,7 +25,11 @@ pthread_mutex_t *create_dongles(int n){
 	return (dongles);
 }
 
-void	destroy_dongles(pthread_mutex_t *dongles, int n){
+void	destroy_dongles(pthread_mutex_t *dongles, int n)
+{
+	if (!dongles)
+		return ;
+
 	for (int i = 0; i < n; i++)
 		pthread_mutex_destroy(&dongles[i]);
 
