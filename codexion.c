@@ -26,13 +26,9 @@ int main(int argc, char* argv[]){
 
 	if (!validator(argc, argv))
 		return (1);
-	printf("Valid\n");
 	data = create_data(argv);
-	printf("Data created\n");
 	dongles = create_dongles(data->n_coders);
-	printf("Dongles created\n");
 	coders = create_coders(dongles, data, data->n_coders);
-	printf("Coders created\n");
 	if (!data || !dongles || !coders)
 	{
 		destroy_everything(coders, dongles, data, argc);
