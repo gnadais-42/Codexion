@@ -39,6 +39,10 @@ t_data		*create_data(char *argv[]);
 void		destroy_data(t_data *data);
 void		print_data(t_data data);
 
+pthread_t	*create_threads(coder_t *coders, int n, void *(*routine)(void *));
+void		join_threads(pthread *threads, int n);
+void		destroy_threads(pthread *threads);
+
 int validator(int argc, char *argv[]);
 
 #endif
