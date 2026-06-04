@@ -12,26 +12,36 @@
 
 #include "codexion.h"
 
-pthread_mutex_t *create_dongles(int n)
+t_dongle	*create_dongles(int n)
 {
-	pthread_mutex_t *dongles;
+	t_dongle	*dongles;
+	int			i;
 
-	dongles = malloc(sizeof(pthread_mutex_t) * n);
+	dongles = malloc(sizeof(t_dongle) * n);
 	if (!dongles)
 		return (NULL);
-
-	for (int i = 0; i < n; i++)
-		pthread_mutex_init(&dongles[i], NULL);
+	i = 0;
+	while (i < n){
+		pthread_mutex_init(&(dongles[i].mutex), NULL);
+		pthread_cond_init(&(dongles[i].cond), NULL);
+		dongles[i].available_at = 0;
+		i++;
+	}
 	return (dongles);
 }
 
-void	destroy_dongles(pthread_mutex_t *dongles, int n)
+void	destroy_dongles(t_dongle *dongles, int n)
 {
+	int	i;
 	if (!dongles)
 		return ;
 
-	for (int i = 0; i < n; i++)
-		pthread_mutex_destroy(&dongles[i]);
+	i = 0;
+	while (i < n){
+		pthread_mutex_destroy(&(dongles[i].mutex));
+		pthread_cond_destroy(&(dongles[i].cond));
+		i++;
+	}
 
 	free(dongles);
 } 

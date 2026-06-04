@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "codexion.c"
+#include "codexion.h"
 
 pthread_t	*create_threads(t_coder *coders, int n, void *(*routine)(void *))
 {
@@ -36,7 +36,7 @@ void	destroy_threads(pthread_t *threads)
 	free(threads);
 }
 
-void	join_threads(pthread *threads, int n)
+void	join_threads(pthread_t *threads, int n)
 {
 	int	i;
 
