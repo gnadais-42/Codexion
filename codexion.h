@@ -91,6 +91,7 @@ void		destroy_dongles(t_dongle *dongles, int n);
 t_coder		*create_coders(t_dongle *dongles, int n, t_sim *sim);
 void		destroy_coders(t_coder *coders, int n);
 void		print_coder(t_coder coder);
+long		last_compile(t_coder *coder);
 
 t_data		*create_data(char *argv[]);
 void		destroy_data(t_data *data);
@@ -100,6 +101,10 @@ pthread_t	*create_threads(t_coder *coders, int n, void *(*routine)(void *), t_si
 void		join_threads(pthread_t *threads, int n);
 void		destroy_threads(pthread_t *threads);
 
+t_sim   *create_simulation(char *argv[]);
+void	abort_simulation(t_sim *sim);
+void	destroy_simulation(t_sim *sim);
+
 int		validator(int argc, char *argv[]);
 
 long	get_time_ms();
@@ -108,8 +113,10 @@ void	smart_sleep(t_sim *sim, long duration);
 
 int		sim_stopped(t_sim *sim);
 void    stop_simulation(t_sim *sim);
+void	print_message(t_sim *sim, int coder_id, char *message);
 
 void    *routine(void *arg);
 void    *monitor_routine(void *sim);
+void    *null_func(void *arg);
 
 #endif

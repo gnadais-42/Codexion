@@ -17,3 +17,14 @@ void    stop_simulation(t_sim *sim)
     sim->stopped = 1;
     pthread_mutex_unlock(&(sim->stop_mutex));
 }
+
+void    print_message(t_sim *sim, int coder_id, char *message)
+{
+    long time;
+
+    time = timestamp(sim);
+
+    pthread_mutex_lock(&(sim->print_mutex));
+    printf("%ld %d %s\n", time, coder_id, message);
+    pthread_mutex_unlock(&(sim->print_mutex));
+}

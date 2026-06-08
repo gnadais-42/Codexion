@@ -2,7 +2,8 @@ NAME=codexion
 CC=cc
 CFLAGS=-pthread
 CFILES= codexion.c coder_utils.c data.c dongle_utils.c validator.c \
-		heap.c heap_utils.c heap_pop.c simulation.c threads.c
+		heap.c heap_utils.c heap_pop.c simulation.c threads.c helpers.c \
+		time.c routine.c
 COBJ = $(CFILES:.c=.o)
 CHEADERS= codexion.h
 

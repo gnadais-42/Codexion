@@ -56,3 +56,14 @@ void print_coder(t_coder coder)
 	printf("Right dongle: %p\n", coder.r_dongle);
 	printf("Times compiled: %d\n", coder.n_compiled);
 }
+
+long	last_compile(t_coder *coder)
+{
+	long	last;
+
+	pthread_mutex_lock(&(coder->state_mutex));
+	last = coder->last_compiled;
+	pthread_mutex_unlock(&(coder->state_mutex));
+
+	return (last);
+}

@@ -51,24 +51,30 @@ t_sim   *create_simulation(char *argv[])
     sim->start_time = get_time_ms();
     if (!create_threads_and_others(sim, argv))
     {
-        destroy_simulation(sim);
+        abort_simulation(sim);
         return (NULL);
     }
-    if (pthread_create(&(sim->monitor), NULL, monitor_routine, sim) != 0)
+    if (pthread_create(&(sim->monitor), NULL, null_func, sim) != 0)
     {
-        destroy_simulation(sim);
+        abort_simulation(sim);
         return (NULL);
     }
+    sim->monitor_created = 1;
 
     return (sim);
 }
 
-void    destroy_simulation(t_sim *sim)
+void    abort_simulation(t_sim *sim)
 {
     stop_simulation(sim);
     join_threads(sim->threads, sim->thread_count);
     if (sim->monitor_created)
         pthread_join(sim->monitor, NULL);
+    destroy_simulation(sim);
+}
+
+void    destroy_simulation(t_sim *sim)
+{
     destroy_threads(sim->threads);
     destroy_coders(sim->coders, sim->data.n_coders);
     destroy_dongles(sim->dongles, sim->data.n_coders);
