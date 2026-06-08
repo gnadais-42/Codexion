@@ -12,21 +12,23 @@
 
 #include "codexion.h"
 
-pthread_t	*create_threads(t_coder *coders, int n, void *(*routine)(void *))
+pthread_t	*create_threads(t_coder *coders, int n, void *(*routine)(void *), t_sim *sim)
 {
 	pthread_t	*threads;
+	int			i;
 
+	if (!coders)
+		return (NULL);
 	threads = malloc(sizeof(pthread_t) * n);
 	if (!threads)
 		return (NULL);
-
-	for (int i = 0; i < n; i++)
+	i = 0;
+	while (i < n)
 	{
 		if (pthread_create(&threads[i], NULL, routine, (void*) &coders[i]) != 0)
-		{
-			destroy_threads(threads);
-			return (NULL);
-		}
+			return (threads);
+		sim->thread_count++;
+		i++;
 	}
 	return (threads);
 }
@@ -39,6 +41,9 @@ void	destroy_threads(pthread_t *threads)
 void	join_threads(pthread_t *threads, int n)
 {
 	int	i;
+
+	if (!threads)
+		return ;
 
 	i = 0;
 	while (i < n)

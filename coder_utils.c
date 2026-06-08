@@ -12,7 +12,8 @@
 
 #include "codexion.h"
 
-t_coder	*create_coders(t_dongle *dongles, int n){
+t_coder	*create_coders(t_dongle *dongles, int n, t_sim *sim)
+{
 	t_coder	*coders;
 	int		i;
 
@@ -27,21 +28,24 @@ t_coder	*create_coders(t_dongle *dongles, int n){
 	while (i < n){
 		coders[i].id = i + 1;
 		coders[i].l_dongle = &dongles[i];
-		if (i == n - 1)
-			coders[i].r_dongle = &dongles[0];
-		else
-			coders[i].r_dongle = &dongles[i + 1];
+		coders[i].r_dongle = &dongles[(i + 1) % n];
+		pthread_mutex_init(&(coders[i].state_mutex), NULL);
+		coders[i].sim_data = sim;
+		coders[i].last_compiled = sim->start_time;
 		coders[i].n_compiled = 0;
-		coders[i].last_compiled = 0;
-		coders[i].sim_data = NULL;
 		i++;
 	}
 	return (coders);
 }
 
-void	destroy_coders(t_coder *coders){
+void	destroy_coders(t_coder *coders, int n){
+	int	i;
+
 	if (!coders)
 		return ;
+	i = 0;
+	while (i < n)
+		pthread_mutex_destroy(&(coders[i++].state_mutex));
 	free(coders);
 }
 
