@@ -46,3 +46,31 @@ void	destroy_dongles(t_dongle *dongles, int n)
 
 	free(dongles);
 }
+
+void take_dongle(t_dongle *d, t_coder *c)
+{
+    pthread_mutex_lock(&d->mutex);
+
+    while (!dongle_available(d, c) && !sim_stopped(c->sim_data))
+        pthread_cond_wait(&d->cond, &d->mutex);
+
+    d->occupied = 1;
+
+    pthread_mutex_unlock(&d->mutex);
+}
+
+void release_dongle(t_dongle *d, t_sim *s)
+{
+    pthread_mutex_lock(&d->mutex);
+
+    d->occupied = 0;
+    d->available_at = get_time_ms() + s->data.d_cooldown;
+	
+	pthread_mutex_lock(&d->heap_mutex);
+	heap_pop(d->waitline);
+	pthread_mutex_unlock(&d->heap_mutex);
+
+    pthread_cond_broadcast(&d->cond);
+
+    pthread_mutex_unlock(&d->mutex);
+}

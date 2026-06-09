@@ -51,14 +51,15 @@ typedef struct s_dongle
 
 typedef struct s_coder
 {
-	int id;
-	t_dongle *l_dongle;
-	t_dongle *r_dongle;
-	int		n_compiled;
-	long	last_compiled;
+	int 			id;
+	t_dongle 		*l_dongle;
+	t_dongle 		*r_dongle;
+	int				n_compiled;
+	pthread_mutex_t	compilation;
+	long			last_compiled;
 	pthread_mutex_t	state_mutex;
 
-	t_sim	*sim_data;
+	t_sim			*sim_data;
 } t_coder;
 
 typedef struct s_sim
@@ -83,15 +84,26 @@ void		destroy_heap(t_heap *heap);
 void		heap_push(t_heap *heap, t_request r);
 t_request	heap_peek(t_heap *heap);
 t_request	heap_pop(t_heap *heap);
+int			is_first(t_heap *h, int id);
 
 
 t_dongle	*create_dongles(int n, char *schedule);
 void		destroy_dongles(t_dongle *dongles, int n);
+void		request_dongles(t_coder *coder, t_sim *sim);
+void		take_dongle(t_dongle *d, t_coder *c);
+void 		release_dongle(t_dongle *d, t_sim *s);
+int			dongle_available(t_dongle *d, t_coder *coder);
+void		wait_dongle(t_dongle *d);
+void		acquire_both(t_coder *c);
 
 t_coder		*create_coders(t_dongle *dongles, int n, t_sim *sim);
 void		destroy_coders(t_coder *coders, int n);
 void		print_coder(t_coder coder);
 long		last_compile(t_coder *coder);
+void		set_last_compiled(t_coder *coder);
+void    	increment_compilation(t_coder *coder);
+int			get_n_compiled(t_coder *coder);
+
 
 t_data		*create_data(char *argv[]);
 void		destroy_data(t_data *data);
@@ -114,9 +126,15 @@ void	smart_sleep(t_sim *sim, long duration);
 int		sim_stopped(t_sim *sim);
 void    stop_simulation(t_sim *sim);
 void	print_message(t_sim *sim, int coder_id, char *message);
+void    lock_remove_unlock(t_dongle *dongle, int coder_id);
+
 
 void    *routine(void *arg);
 void    *monitor_routine(void *sim);
 void    *null_func(void *arg);
+
+void    compile(t_coder *c, t_sim *s);
+void    debug(t_coder *c, t_sim *s);
+void    refactor(t_coder *c, t_sim *s);
 
 #endif

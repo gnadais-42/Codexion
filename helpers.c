@@ -24,6 +24,9 @@ void    print_message(t_sim *sim, int coder_id, char *message)
 
     time = timestamp(sim);
 
+    if (sim_stopped(sim))
+        return ;
+
     pthread_mutex_lock(&(sim->print_mutex));
     printf("%ld %d %s\n", time, coder_id, message);
     pthread_mutex_unlock(&(sim->print_mutex));

@@ -7,16 +7,9 @@ void    *routine(void *c)
     coder = (t_coder *) c;
     while (!sim_stopped(coder->sim_data))
     {
-        pthread_mutex_lock(&(coder->state_mutex));
-        coder->last_compiled = get_time_ms();
-        coder->n_compiled++;
-        pthread_mutex_unlock(&(coder->state_mutex));
-        print_message(coder->sim_data, coder->id, "is compiling");
-        smart_sleep(coder->sim_data, coder->sim_data->data.t_compile);
-        print_message(coder->sim_data, coder->id, "is debugging");
-        smart_sleep(coder->sim_data, coder->sim_data->data.t_debug);
-        print_message(coder->sim_data, coder->id, "is refactoring");
-        smart_sleep(coder->sim_data, coder->sim_data->data.t_refactor);
+        compile(coder, coder->sim_data);
+        debug(coder, coder->sim_data);
+        refactor(coder, coder->sim_data);
     }
 
     return (NULL);

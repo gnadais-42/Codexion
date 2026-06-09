@@ -49,3 +49,10 @@ t_request   heap_peek(t_heap *heap)
 {
     return heap->arr[0];
 }
+
+int is_first(t_heap *h, int id)
+{
+    if (h->size == 0)
+        return (0);
+    return (h->arr[0].coder_id == id);
+}
