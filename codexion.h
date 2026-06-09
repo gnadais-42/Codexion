@@ -85,7 +85,9 @@ void		heap_push(t_heap *heap, t_request r);
 t_request	heap_peek(t_heap *heap);
 t_request	heap_pop(t_heap *heap);
 int			is_first(t_heap *h, int id);
-
+void		swap_request(t_request *a, t_request *b);
+void		heapify_down(t_heap *heap, int i);
+int			has_higher_priority(t_heap *heap, t_request a, t_request b);
 
 t_dongle	*create_dongles(int n, char *schedule);
 void		destroy_dongles(t_dongle *dongles, int n);

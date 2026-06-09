@@ -1,9 +1,8 @@
 #include "codexion.h"
 
-static void heapify_up(t_heap *heap, int i);
 static void	remove_request_by_id(t_heap *heap, int coder_id);
 
-static void heapify_up(t_heap *heap, int i)
+void heapify_up(t_heap *heap, int i)
 {
     int	parent;
 

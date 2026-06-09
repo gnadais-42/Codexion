@@ -1,9 +1,6 @@
 #include "codexion.h"
 
-static int has_higher_priority(t_heap *heap, t_request a, t_request b);
-static void swap_request(t_request *a, t_request *b);
-
-static int has_higher_priority(t_heap *heap, t_request a, t_request b)
+int has_higher_priority(t_heap *heap, t_request a, t_request b)
 {
     if (strcmp(heap->schedule, "fifo") == 0) 
         return (a.request_time < b.request_time); // FIFO, priority given to who asks for it first
@@ -12,15 +9,6 @@ static int has_higher_priority(t_heap *heap, t_request a, t_request b)
         return (a.deadline < b.deadline); // EDF, priority is by deadline
 
     return (a.request_time < b.request_time); // Tie-breaker in case two coders have the same deadline
-}
-
-static void swap_request(t_request *a, t_request *b)
-{
-    t_request tmp;
-
-    tmp = *a;
-    *a = *b;
-    *b = tmp;
 }
 
 void heap_push(t_heap *heap, t_request r)
