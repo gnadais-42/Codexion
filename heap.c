@@ -5,10 +5,10 @@ t_heap  *create_heap(int n, char *schedule)
     t_request   *requests;
     t_heap      *heap;
 
-    requests = malloc(sizeof(t_request) * n);
+    requests = malloc(sizeof(t_request) * 2);
     if (!requests)
         return (NULL);
-    memset(requests, 0, sizeof(t_request) * n);
+    memset(requests, 0, sizeof(t_request) * 2);
     heap = malloc(sizeof(t_heap));
     if (!heap)
     {
@@ -16,7 +16,7 @@ t_heap  *create_heap(int n, char *schedule)
         return (NULL);
     }
     heap->arr = requests;
-    heap->capacity = n;
+    heap->capacity = 2;
     heap->size = 0;
     heap->schedule = schedule;
 

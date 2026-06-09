@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "codexion.h"
-/*
+
 int main(int argc, char* argv[])
 {
 	t_sim *sim_data;
@@ -26,4 +26,3 @@ int main(int argc, char* argv[])
 	pthread_join(sim_data->monitor, NULL);
 	destroy_simulation(sim_data);
 }
-*/
