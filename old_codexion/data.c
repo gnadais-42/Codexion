@@ -12,43 +12,32 @@
 
 #include "codexion.h"
 
-static t_schedule	get_schedule(char *sch);
-static char			*get_str_schedule(t_schedule sch);
-
-static t_schedule	get_schedule(char *sch)
+t_data	*create_data(char *argv[])
 {
-	if (strcmp(sch, "fifo") == 0)
-		return (FIFO);
-	else
-		return (EDF);
-}
+	t_data	*data;
 
-static char	*get_str_schedule(t_schedule sch)
-{
-	if (sch == FIFO)
-		return ("fifo");
-	else if (sch == EDF)
-		return ("edf");
-	else
+	data = malloc(sizeof(t_data));
+	if (!data)
 		return (NULL);
-}
 
-t_data	create_data(char *argv[])
-{
-	t_data	data;
-
-	data.n_coders = atoi(argv[1]);
-	data.t_burnout = atoi(argv[2]);
-	data.t_compile = atoi(argv[3]);
-	data.t_debug = atoi(argv[4]);
-	data.t_refactor = atoi(argv[5]);
-	data.n_compiles = atoi(argv[6]);
-	data.d_cooldown = atoi(argv[7]);
-	data.schedule = get_schedule(argv[8]);
+	data->n_coders = atoi(argv[1]);
+	data->t_burnout = atoi(argv[2]);
+	data->t_compile = atoi(argv[3]);
+	data->t_debug = atoi(argv[4]);
+	data->t_refactor = atoi(argv[5]);
+	data->n_compiles = atoi(argv[6]);
+	data->d_cooldown = atoi(argv[7]);
+	data->schedule = argv[8];
 
 	return (data);
 }
 
+void	destroy_data(t_data *data)
+{
+	if (!data)
+		return ;
+	free(data);
+}
 
 void print_data(t_data data)
 {
@@ -59,5 +48,5 @@ void print_data(t_data data)
 	printf("Time to refactor: %d ms\n", data.t_refactor);
 	printf("Required compiles: %d\n", data.n_compiles);
 	printf("Dongle cooldown: %d ms\n", data.d_cooldown);
-	printf("Scheduling: %s\n", get_str_schedule(data.schedule));
+	printf("Scheduling: %s\n", data.schedule);
 }
