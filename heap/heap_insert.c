@@ -1,13 +1,11 @@
 #include "../codexion.h"
 
-static void heapify_up(t_heap *heap, t_heap_node *node, int (*cmp)(t_request, t_request));
+static void heapify_up(t_heap_node *node, int (*cmp)(t_request, t_request));
 static void place_node(t_heap_node *parent, t_heap_node *node);
 static int  insert_at_beginning(t_heap *heap, t_heap_node *node);
 
-static void heapify_up(t_heap *heap, t_heap_node *node, int (*cmp)(t_request, t_request))
+static void heapify_up(t_heap_node *node, int (*cmp)(t_request, t_request))
 {
-    t_request tmp;
-
     while (node->parent && cmp(node->request, node->parent->request))
     {
         swap_node_requests(node->parent, node);
@@ -58,12 +56,12 @@ int heap_insert(t_heap *heap, t_request r)
         mask >>= 1;
     }
     place_node(curr, node);
-    heapify_up(heap, node, heap->compare);
+    heapify_up(node, heap->compare);
     heap->size++;
     return (1);
 }
 
-/* int main()
+int main()
 {
     t_heap heap = create_heap(compare_edf);
     t_request r1 = {0, 1, 2};
@@ -81,6 +79,9 @@ int heap_insert(t_heap *heap, t_request r)
     heap_insert(&heap, (t_request) {0, 4, 1});
     heap_insert(&heap, (t_request) {0, 9, 1});
     heap_insert(&heap, (t_request) {0, 10, 1});
+    heap_pop(&heap);
+    printf("%ld\n", heap.head->left->left->right->request.deadline);
+    heap_pop(&heap);
 
     print_heap(&heap);
-} */
+}

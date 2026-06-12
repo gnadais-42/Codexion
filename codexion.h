@@ -21,6 +21,8 @@ void        swap_node_requests(t_heap_node *parent, t_heap_node *child);
 int         get_mask(t_heap *heap, int index);
 t_request   heap_peek(t_heap *heap);
 int         heap_insert(t_heap *heap, t_request r);
+t_request   heap_pop(t_heap *heap);
+
 
 
 

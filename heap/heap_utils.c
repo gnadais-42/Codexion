@@ -12,7 +12,6 @@ void    swap_node_requests(t_heap_node *a, t_heap_node *b)
 int  get_mask(t_heap *heap, int index)
 {
     int mask;
-    int index;
 
     mask = 1;
     while (mask <= index)
@@ -25,7 +24,7 @@ void    print_heap(t_heap *heap)
 {
     t_heap_node *curr;
     int i;
-    int index;«
+    int index;
     int mask;
 
     i = 0;

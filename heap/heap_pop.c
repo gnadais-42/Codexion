@@ -2,16 +2,17 @@
 
 static void heapify_down(t_heap_node *node, int (*cmp)(t_request, t_request))
 {
-    t_heap_node *child; // AQUI FALTA TER A CERTEZA QUE ESCOLHE O CHILD CORRETO
-    while (node->left || node->right) // NÃO É SÓ QUALQUER UM MENOR, TEM QUE SER O MENOR DOS DOIS
+    t_heap_node *child;
+    
+    while (node->left)
     {
-        if (node->left && cmp(node->left->request, node->request))
-            child = node->left;
-        else if (node->right && cmp(node->right->request, node->request))
+        child = node->left;
+        if (node->right && cmp(node->right->request, child->request))
             child = node->right;
+        if (cmp(child->request, node->request))
+            swap_node_requests(node, child);
         else
             return ;
-        swap_node_requests(node, child);
         node = child;
     }
 }
@@ -49,8 +50,14 @@ static void place_last_in_first(t_heap *heap)
     last->parent = NULL;
     last->left = heap->head->left;
     last->right = heap->head->right;
-    last->left->parent = last;
-    last->right->parent = last;
+    if (heap->size == 2)
+        last->left = NULL;
+    if (heap->size == 3)
+        last->right = NULL;
+    if (last->left)
+        last->left->parent = last;
+    if (last->right)
+        last->right->parent = last;
 
     heap->head = last;
 }
@@ -63,12 +70,12 @@ t_request   heap_pop(t_heap *heap)
 
     if (!heap->head)
         return ((t_request) {0,0,0});
-    if (heap->size == 1) // FALTA DAR HANDLE DOS CASOS QUANDO SIZE É 2 OU 3 SENÃO CRIAS LOOPS
+    if (heap->size == 1)
     {
         r = heap->head->request;
         free(heap->head);
         heap->head = NULL;
-        heap->size++;
+        heap->size--;
         return (r);
     }
     
@@ -78,6 +85,6 @@ t_request   heap_pop(t_heap *heap)
     heapify_down(heap->head, heap->compare);
 
     free(to_free);
-    heap->size++;
+    heap->size--;
     return (r);
 }
