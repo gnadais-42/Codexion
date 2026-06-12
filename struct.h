@@ -4,6 +4,8 @@
 # include <pthread.h>
 
 typedef struct s_sim t_sim;
+typedef struct s_request t_request;
+typedef int (*t_compare)(t_request, t_request);
 
 typedef enum s_schedule
 {
@@ -30,7 +32,7 @@ typedef struct s_heap
 {
     t_heap_node *head;
     int         size;
-    int         (*compare)(t_request, t_request);
+    t_compare   compare;
 } t_heap;
 
 typedef struct s_data
@@ -51,7 +53,7 @@ typedef struct s_dongle
     pthread_cond_t  cond;
     int             available;
     long            last_used;
-    t_heap          waitline;
+    t_heap          heap;
 } t_dongle;
 
 typedef struct s_coder
@@ -77,8 +79,8 @@ typedef struct s_sim
 
     int             stopped;
     long            start_time;
+    int             thread_count;
+    int             monitor_created;
 } t_sim;
-
-
 
 #endif

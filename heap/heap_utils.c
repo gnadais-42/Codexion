@@ -9,7 +9,7 @@ void    swap_node_requests(t_heap_node *a, t_heap_node *b)
     b->request = tmp;
 }
 
-int  get_mask(t_heap *heap, int index)
+int  get_mask(int index)
 {
     int mask;
 

@@ -2,7 +2,7 @@
 
 static void free_node(t_heap_node *node);
 
-t_heap  create_heap(int (*cmp)(t_request, t_request))
+t_heap  create_heap(t_compare cmp)
 {
     t_heap  heap;
 

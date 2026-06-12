@@ -1,5 +1,13 @@
 #include "../codexion.h"
 
+t_compare   get_compare(t_schedule sch)
+{
+    if (sch == FIFO)
+        return compare_fifo;
+    else
+        return compare_edf;
+}
+
 int compare_fifo(t_request a, t_request b)
 {
     if (a.time_of_creation < b.time_of_creation)

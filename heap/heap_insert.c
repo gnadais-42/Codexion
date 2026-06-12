@@ -1,10 +1,10 @@
 #include "../codexion.h"
 
-static void heapify_up(t_heap_node *node, int (*cmp)(t_request, t_request));
+static void heapify_up(t_heap_node *node, t_compare cmp);
 static void place_node(t_heap_node *parent, t_heap_node *node);
 static int  insert_at_beginning(t_heap *heap, t_heap_node *node);
 
-static void heapify_up(t_heap_node *node, int (*cmp)(t_request, t_request))
+static void heapify_up(t_heap_node *node, t_compare cmp)
 {
     while (node->parent && cmp(node->request, node->parent->request))
     {
@@ -46,7 +46,7 @@ int heap_insert(t_heap *heap, t_request r)
     if (insert_at_beginning(heap, node))
         return (1);
     curr = heap->head;
-    mask = get_mask(heap, heap->size + 1);
+    mask = get_mask(heap->size + 1);
     while (mask > 1)
     {
         if (mask & (heap->size + 1))
@@ -60,7 +60,7 @@ int heap_insert(t_heap *heap, t_request r)
     heap->size++;
     return (1);
 }
-
+/*
 int main()
 {
     t_heap heap = create_heap(compare_edf);
@@ -84,4 +84,4 @@ int main()
     heap_pop(&heap);
 
     print_heap(&heap);
-}
+}*/

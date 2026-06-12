@@ -1,6 +1,10 @@
 #include "../codexion.h"
 
-static void heapify_down(t_heap_node *node, int (*cmp)(t_request, t_request))
+static void heapify_down(t_heap_node *node, t_compare cmp);
+static t_heap_node  *get_last_node(t_heap *heap);
+static void place_last_in_first(t_heap *heap);
+
+static void heapify_down(t_heap_node *node, t_compare cmp)
 {
     t_heap_node *child;
     
@@ -24,7 +28,7 @@ static t_heap_node  *get_last_node(t_heap *heap)
     t_heap_node *curr;
 
     index = heap->size;
-    mask = get_mask(heap, heap->size);
+    mask = get_mask(heap->size);
     curr = heap->head;
     while (mask > 0)
     {
@@ -66,7 +70,6 @@ t_request   heap_pop(t_heap *heap)
 {
     t_request   r;
     t_heap_node *to_free;
-    t_heap_node *last;
 
     if (!heap->head)
         return ((t_request) {0,0,0});
