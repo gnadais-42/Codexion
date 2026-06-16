@@ -27,6 +27,10 @@ t_compare   get_compare(t_schedule sch);
 t_dongle	*create_dongles(int n, t_schedule sch);
 void	    destroy_dongles(t_dongle *dongles, int n);
 int         create_requests(t_coder *coder);
+int         acquire_dongles(t_coder *coder);
+void        release_dongles(t_coder *coder);
+void        set_last_used(t_dongle *dongle);
+
 
 t_coder	*create_coders(t_dongle *dongles, int n, t_sim *sim);
 void	destroy_coders(t_coder *coders, int n);
@@ -49,6 +53,8 @@ long    get_time_ms();
 long    timestamp(t_sim *sim);
 void    smart_sleep(t_sim * sim, long duration);
 
-
+int compile(t_coder *coder);
+int debug(t_coder *coder);
+int refactor(t_coder *coder);
 
 #endif

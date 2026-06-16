@@ -25,3 +25,11 @@ int create_requests(t_coder *coder)
 
     return (1);
 }
+
+void set_last_used(t_dongle *dongle)
+{
+    long    time;
+
+    time = get_time_ms();
+    dongle->last_used = time;
+}

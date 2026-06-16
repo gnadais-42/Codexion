@@ -3,11 +3,12 @@ CC=cc
 CFLAGS=-Wall -Werror -Wextra -pthread
 CFILES= codexion.c \
 		coders/coder.c coders/coder_utils.c \
-		dongles/dongle.c \
+		dongles/dongle.c dongles/acquire_dongles.c dongles/release_dongles.c dongles/dongle_utils.c\
 		heap/heap.c heap/heap_utils.c heap/heap_insert.c heap/heap_peek.c heap/heap_pop.c heap/compare.c \
 		routines/coder_routine.c routines/monitor_routine.c \
 		sim/sim.c sim/sim_utils.c \
-		utils/data.c utils/validator.c utils/time.c
+		utils/data.c utils/validator.c utils/time.c \
+		actions/compile.c actions/debug.c actions/refactor.c
 COBJ = $(CFILES:.c=.o)
 CHEADERS= codexion.h
 
