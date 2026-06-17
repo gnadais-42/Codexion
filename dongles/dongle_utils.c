@@ -12,6 +12,7 @@ static int create_request(t_dongle *dongle, t_coder *coder)
     r.time_of_creation = get_time_ms();
     pthread_mutex_lock(&dongle->mutex);
     success = heap_insert(&dongle->heap, r);
+    pthread_cond_broadcast(&dongle->cond);
     pthread_mutex_unlock(&dongle->mutex);
     return (success);
 }

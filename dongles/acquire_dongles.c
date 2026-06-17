@@ -39,27 +39,42 @@ static int acquire_dongle(t_dongle *dongle, t_sim *sim, int coder_id)
     return (1);
 }
 
+static void get_dongle_order(t_coder *coder, t_dongle **first, t_dongle **second)
+{
+    if (coder->left < coder->right)
+    {
+        *first = coder->left;
+        *second = coder->right;
+    }
+    else
+    {
+        *first = coder->right;
+        *second = coder->left;
+    }
+}
+
 int acquire_dongles(t_coder *coder)
 {
     t_dongle    *first;
     t_dongle    *second;
+    int         both_acquired;
 
-    if (coder->left < coder->right)
+    both_acquired = 0;
+    get_dongle_order(coder, &first, &second);
+    while (!sim_stopped(coder->sim) && !both_acquired)
     {
-        first = coder->left;
-        second = coder->right;
-    }
-    else
-    {
-        first = coder->right;
-        second = coder->left;
-    }
-    if (!acquire_dongle(first, coder->sim, coder->id))
-        return (0);
-    else if (!acquire_dongle(second, coder->sim, coder->id))
-    {
-        pthread_mutex_unlock(&first->mutex);
-        return (0);
+        if (!acquire_dongle(first, coder->sim, coder->id))
+            return (0);
+        pthread_mutex_lock(&second->mutex);
+        if (!coder_can_take(second, coder->id, coder->sim->data.d_cooldown))
+        {
+            pthread_cond_broadcast(&first->cond);
+            pthread_cond_broadcast(&second->cond);
+            pthread_mutex_unlock(&first->mutex);
+            pthread_mutex_unlock(&second->mutex);
+        }
+        else
+            both_acquired = 1;
     }
     return (1);
 }
