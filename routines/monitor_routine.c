@@ -11,8 +11,12 @@ static int  compiled_enough(t_coder *coder, int times_to_compile)
 static int  burnout(t_coder *coder, long time_to_burnout)
 {
     long    time;
+    long    last_compiled;
 
     time = get_time_ms();
+    last_compiled = get_last_compiled(coder);
+    if (last_compiled == 0)
+        return (0);
     return (time - get_last_compiled(coder) >= time_to_burnout);
 }
 
@@ -23,7 +27,6 @@ static int  loop_through_coders(t_coder *coders, t_sim *sim)
 
     i = 0;
     finished = 0;
-    printf("testestes\n");
     while (i < sim->data.n_coders)
     {
         if (burnout(&coders[i], (long) sim->data.t_burnout))
@@ -32,7 +35,7 @@ static int  loop_through_coders(t_coder *coders, t_sim *sim)
             finished++;
         i++;
     }
-    printf("Number of coders that finished: %d\n", finished);
+    //printf("Number of coders that finished: %d\n", finished);
     if (finished == sim->data.n_coders)
         return (-1);
     else
