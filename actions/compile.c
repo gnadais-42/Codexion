@@ -11,10 +11,11 @@ int compile(t_coder *coder)
         return (0);
     if (sim_stopped(coder->sim))
         return (0);
-    print_message(coder->sim, coder, "is debugging");
+    print_message(coder->sim, coder, "is compiling");
     smart_sleep(coder->sim, time);
     release_dongles(coder);
-
+    increment_compilation(coder);
+    print_times_compiled(coder);
     return (1);
 }
 

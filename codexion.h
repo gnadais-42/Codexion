@@ -36,10 +36,15 @@ t_coder	*create_coders(t_dongle *dongles, int n, t_sim *sim);
 void	destroy_coders(t_coder *coders, int n);
 long	get_last_compiled(t_coder *coder);
 void	set_last_compiled(t_coder *coder);
+void	increment_compilation(t_coder *coder);
+int		get_n_compilation(t_coder *coder);
+void	print_times_compiled(t_coder *coder);
+
 
 t_sim   *create_simulation(char *argv[]);
 void    destroy_simulation(t_sim *sim);
 int     start_simulation(t_sim *sim);
+void    stop_simulation(t_sim *sim);
 int     sim_stopped(t_sim *sim);
 void    print_message(t_sim *sim, t_coder *coder, char *message);
 
