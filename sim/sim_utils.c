@@ -13,9 +13,17 @@ int sim_stopped(t_sim *sim)
 
 void    stop_simulation(t_sim *sim)
 {
+    int i;
+
     pthread_mutex_lock(&sim->stop_mutex);
     sim->stopped = 1;
     pthread_mutex_unlock(&sim->stop_mutex);
+
+    i = 0;
+    while (i > sim->data.n_coders){
+        pthread_cond_broadcast(&sim->dongles[i].cond);
+        i++;
+    }
 }
 
 void    print_message(t_sim *sim, t_coder *coder, char *message)

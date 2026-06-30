@@ -1,0 +1,2 @@
+Tens que mudar os waits para timedwaits. arranja forma de meter
+timedwait mesmo quando o dongle está off cooldown para evitar threads a correr para sempre.

@@ -7,6 +7,7 @@ void    *coder_routine(void *arg)
 
     coder = (t_coder *) arg;
     sim = coder->sim;
+    set_last_compiled(coder);
     while (!sim_stopped(sim))
     {
         if (!compile(coder))
@@ -16,5 +17,6 @@ void    *coder_routine(void *arg)
         if (!refactor(coder))
             break ;
     }
+    print_message(sim, coder, "has left");
     return (NULL);
 }
