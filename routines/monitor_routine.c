@@ -41,6 +41,7 @@ void    *monitor_routine(void *arg)
 {
     t_sim   *sim;
     int     state;
+    // long    i = 0;
 
     sim = (t_sim *) arg;
     while (!sim_stopped(sim))
@@ -58,6 +59,9 @@ void    *monitor_routine(void *arg)
             print_message(sim, &sim->coders[state - 1], "burned out");
             break ;
         }
+        // if (i % 20 == 0)
+            // printf("%ld monitor is running\n", timestamp(sim));
+        // i++;
         usleep(500);
     }
     return (NULL);

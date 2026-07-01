@@ -20,7 +20,8 @@ void    stop_simulation(t_sim *sim)
     pthread_mutex_unlock(&sim->stop_mutex);
 
     i = 0;
-    while (i > sim->data.n_coders){
+    while (i < sim->data.n_coders)
+    {
         pthread_cond_broadcast(&sim->dongles[i].cond);
         i++;
     }

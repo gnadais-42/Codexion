@@ -15,6 +15,7 @@ int compile(t_coder *coder)
     smart_sleep(coder->sim, time);
     release_dongles(coder);
     increment_compilation(coder);
+    set_last_compiled(coder);
     print_times_compiled(coder);
     return (1);
 }
