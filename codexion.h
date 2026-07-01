@@ -57,6 +57,7 @@ void    *monitor_routine(void *sim);
 long    get_time_ms();
 long    timestamp(t_sim *sim);
 void    smart_sleep(t_sim * sim, long duration);
+void    cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex, long time);
 
 int compile(t_coder *coder);
 int debug(t_coder *coder);
